@@ -92,19 +92,19 @@ export ACUMOS_NAMESPACE=acumos
 # Deployment controls enabling use cases: don't deploy / skip on redeploy
 export ACUMOS_DEPLOY_MARIADB=true
 export ACUMOS_SETUP_DB=true
-export ACUMOS_DEPLOY_COUCHDB=true
-export ACUMOS_DEPLOY_JENKINS=true
+export ACUMOS_DEPLOY_COUCHDB=false
+export ACUMOS_DEPLOY_JENKINS=false
 export ACUMOS_DEPLOY_DOCKER=true
 export ACUMOS_DEPLOY_DOCKER_DIND=true
 export ACUMOS_DEPLOY_NEXUS=true
 export ACUMOS_DEPLOY_NEXUS_REPOS=true
-export ACUMOS_DEPLOY_ELK=true
-export ACUMOS_DEPLOY_ELK_METRICBEAT=true
-export ACUMOS_DEPLOY_ELK_FILEBEAT=true
+export ACUMOS_DEPLOY_ELK=false
+export ACUMOS_DEPLOY_ELK_METRICBEAT=false
+export ACUMOS_DEPLOY_ELK_FILEBEAT=false
 export ACUMOS_DEPLOY_CORE=true
 export ACUMOS_DEPLOY_FEDERATION=true
-export ACUMOS_DEPLOY_MLWB=true
-export ACUMOS_DEPLOY_LUM=true
+export ACUMOS_DEPLOY_MLWB=false
+export ACUMOS_DEPLOY_LUM=false
 export ACUMOS_DEPLOY_INGRESS=true
 export ACUMOS_DEPLOY_INGRESS_RULES=true
 
