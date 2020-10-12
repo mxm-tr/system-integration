@@ -254,34 +254,6 @@ function update_images() {
   for img in $imgs; do
     docker pull $img
   done
-  log "Pre-pull Acumos MLWB component images"
-  envs="$AIO_ROOT/mlwb/mlwb_env.sh $AIO_ROOT/beats/beats_env.sh"
-  tmp=/tmp/$(uuidgen)
-  for env in $envs; do
-    grep -E 'export .*_IMAGE=' $env >>$tmp
-  done
-  sed -i -- "s~\$ACUMOS_RELEASE~$ACUMOS_RELEASE~g" $tmp
-  sed -i -- "s~\$ACUMOS_SNAPSHOT~$ACUMOS_SNAPSHOT~g" $tmp
-  sed -i -- "s~\$ACUMOS_STAGING~$ACUMOS_STAGING~g" $tmp
-  imgs=$(grep -E 'export .*_IMAGE=' $tmp | cut -d '=' -f 2)
-  rm $tmp
-  for img in $imgs; do
-    docker pull $img
-  done
-  source $AIO_ROOT/mlwb/mlwb_env.sh
-  if [[ "$DEPLOYED_UNDER" == "k8s" && "$MLWB_DEPLOY_JUPYTERHUB" == "true" ]]; then
-    log "Pre-pull JupyterHub singleuser container images"
-    imgs="jupyter/tensorflow-notebook:$MLWB_JUPYTERHUB_IMAGE_TAG \
-jupyter/minimal-notebook:$MLWB_JUPYTERHUB_IMAGE_TAG \
-jupyter/r-notebook:$MLWB_JUPYTERHUB_IMAGE_TAG \
-jupyter/scipy-notebook:$MLWB_JUPYTERHUB_IMAGE_TAG \
-jupyter/datascience-notebook:$MLWB_JUPYTERHUB_IMAGE_TAG \
-jupyter/pyspark-notebook:$MLWB_JUPYTERHUB_IMAGE_TAG \
-jupyter/all-spark-notebook:$MLWB_JUPYTERHUB_IMAGE_TAG"
-    for img in $imgs; do
-      docker pull $img
-    done
-  fi
 }
 
 function prepare_mariadb() {
