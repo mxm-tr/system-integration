@@ -208,7 +208,7 @@ function start_k8s_master() {
 
   # Deploy pod network
   log "Deploy calico as CNI"
-  kubectl apply -f https://docs.projectcalico.org/v3.10/manifests/calico.yaml
+  kubectl apply -f https://docs.projectcalico.org/v3.14/manifests/calico.yaml
 
   # TODO: document process dependency
   # Failure to wait for all calico pods to be running can cause the first worker
