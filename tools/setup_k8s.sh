@@ -66,36 +66,10 @@ if [[ $(grep -c $HOSTNAME /etc/hosts) -eq 0 ]]; then
 fi
 if [[ "$HOST_OS" == "ubuntu" ]]; then
   # Per https://kubernetes.io/docs/setup/independent/install-kubeadm/
-  echo; echo "prereqs.sh: ($(date)) Basic prerequisites"
-  wait_dpkg; sudo apt-get update
-
-  echo; echo "prereqs.sh: ($(date)) Install latest docker.ce"
-  # Per https://docs.docker.com/install/linux/docker-ce/ubuntu/
-  wait_dpkg
-  if [[ $(sudo apt-get purge -y docker-ce docker docker-engine docker.io) ]]; then
-    echo "Purged docker-ce docker docker-engine docker.io"
-  fi
-  wait_dpkg; sudo apt-get update
-  wait_dpkg; sudo apt-get install -y \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    software-properties-common
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-  wait_dpkg; sudo apt-get update
-  apt-cache madison docker-ce
-  wait_dpkg; sudo apt-get install -y docker-ce=18.06.3~ce~3-0~ubuntu
-
-  echo; echo "prereqs.sh: ($(date)) Move /var/lib/docker to /mnt/docker to avoid out of space issues on root volume"
-  sudo service docker stop
-  sudo mv /var/lib/docker /mnt/docker
-  sudo ln -s /mnt/docker /var/lib/docker
-  sudo service docker start
 
   echo; echo "prereqs.sh: ($(date)) Get k8s packages"
-  export KUBE_VERSION=1.13.8
-  export KUBE_CNI_VERSION=0.7.5
+  export KUBE_VERSION=1.16.15
+  export KUBE_CNI_VERSION=0.8.6
   # per https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/
   # Install kubelet, kubeadm, kubectl per https://kubernetes.io/docs/setup/independent/install-kubeadm/
   wait_dpkg
@@ -234,9 +208,7 @@ function start_k8s_master() {
 
   # Deploy pod network
   log "Deploy calico as CNI"
-  # Per https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/
-  kubectl apply -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/installation/hosted/rbac-kdd.yaml
-  kubectl apply -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/installation/hosted/kubernetes-datastore/calico-networking/1.7/calico.yaml
+  kubectl apply -f https://docs.projectcalico.org/v3.10/manifests/calico.yaml
 
   # TODO: document process dependency
   # Failure to wait for all calico pods to be running can cause the first worker
