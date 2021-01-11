@@ -64,6 +64,7 @@ function new_db() {
     mysql $server --user=root --password=$ACUMOS_MARIADB_PASSWORD \
       -e "USE $ACUMOS_CDS_DB; GRANT ALL PRIVILEGES ON $ACUMOS_CDS_DB.* TO \"$ACUMOS_MARIADB_USER\"@'%' IDENTIFIED BY \"$ACUMOS_MARIADB_USER_PASSWORD\";"
   fi
+  ACUMOS_CDS_VERSION=3.1-rev2
   # NOTE: user and default database was created in the process of server creation
   log "Retrieve and customize database script for CDS version $ACUMOS_CDS_VERSION"
   # NOTE: Naming convention change in sql scripts as of 3.0-rev2 !
