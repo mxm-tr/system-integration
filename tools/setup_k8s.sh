@@ -367,7 +367,7 @@ if [[ "$action" == "" ]]; then
 else
   start_k8s_master
 fi
-
+sudo apt-mark hold kubelet kubeadm kubectl kubernetes-cni
 log "Setup is complete."
 HOST_IP=$(/sbin/ip route get 8.8.8.8 | head -1 | sed 's/^.*src //' | awk '{print $1}')
 log "The kubernetes dashboard is at https://$HOST_IP:32767"
