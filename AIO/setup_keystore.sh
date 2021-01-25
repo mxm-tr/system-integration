@@ -54,6 +54,7 @@ function setup_keystore() {
     fi
     bash setup_certs.sh $ACUMOS_CERT_PREFIX $ACUMOS_CERT_SUBJECT_NAME \
       "$ACUMOS_HOST" "$extra_ips"
+    bash setup_letsencrypt.sh
     cd ..
   fi
 
