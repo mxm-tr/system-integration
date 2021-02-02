@@ -174,7 +174,7 @@ spec:
                   "exp_time": <ACUMOS_TOKEN_EXP_TIME>
                 },
                 "loginExpire" : {
-                  "duration" : "1M"
+                  "duration" : "36M"
                 },
                 "sv": {
                   "enabled": "<ACUMOS_ENABLE_SECURITY_VERIFICATION>",
