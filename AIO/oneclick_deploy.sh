@@ -163,8 +163,8 @@ function setup_acumos() {
       start_acumos_core_app $app
     done
 
-    log "Deploy docker-proxy"
-    bash $AIO_ROOT/docker-proxy/setup_docker_proxy.sh
+    #log "Deploy docker-proxy"
+    #bash $AIO_ROOT/docker-proxy/setup_docker_proxy.sh
   fi
 }
 
