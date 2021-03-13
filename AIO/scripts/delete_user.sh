@@ -86,7 +86,7 @@ trap 'fail' ERR
 
 if [[ $# -eq 1 ]]; then
   username=$1
-  export AIO_ROOT=/home/ai4eu/system-integration/AIO
+  export AIO_ROOT=$HOME/system-integration/AIO
   source $AIO_ROOT/utils.sh
   source $AIO_ROOT/acumos_env.sh
   cds_baseurl="-k https://$ACUMOS_DOMAIN/ccds"
