@@ -77,10 +77,6 @@ function setup_jenkins() {
       sed -i -- "/  hostAliases:/a\ \ \ \ - ip: \"$HOST_IP\"\n\ \ \ \ \ \ hostnames:\n\ \ \ \ \ \ - \"$ACUMOS_DEFAULT_SOLUTION_DOMAIN\"" deploy/values.yaml
     fi
   fi
-  if [[ "$ACUMOS_NEXUS_HOST_IP" != "" ]]; then
-    log "Adding hostAlias for $ACUMOS_NEXUS_DOMAIN to Jenkins"
-    sed -i -- "/  hostAliases:/a\ \ \ \ - ip: \"$ACUMOS_NEXUS_HOST_IP\"\n\ \ \ \ \ \ hostnames:\n\ \ \ \ \ \ - \"$ACUMOS_NEXUS_DOMAIN\"" deploy/values.yaml
-  fi
 
   K8S_INGRESS_DOMAIN=$(echo $K8S_INGRESS_ORIGIN | cut -d ':' -f 1)
   get_host_ip $K8S_INGRESS_DOMAIN
@@ -90,7 +86,6 @@ function setup_jenkins() {
   cat deploy/values.yaml
 
   log "Install Jenkins via Helm via upstream chart"
-  helm repo add stable https://kubernetes-charts.storage.googleapis.com
   helm repo update
   helm install --name $ACUMOS_NAMESPACE-jenkins -f deploy/values.yaml stable/jenkins
 

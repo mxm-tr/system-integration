@@ -53,6 +53,10 @@ function clean_ingress() {
     if [[ $(kubectl delete secret -n $NAMESPACE ingress-cert) ]]; then
       log "Secret ingress-cert deleted"
     fi
+    ings=$(kubectl get ingress -n $NAMESPACE | awk '/-ingress/{print $1}')
+    for ing in $ings; do
+      kubectl delete ingress -n $NAMESPACE $ing
+    done
   fi
 }
 
@@ -68,29 +72,26 @@ controller:
   extraArgs:
     default-ssl-certificate: "$NAMESPACE/ingress-cert"
     enable-ssl-passthrough: ""
-EOF
-
-if [[ "$ACUMOS_INGRESS_LOADBALANCER" == "true" ]]; then
-  cat <<EOF >>ingress-values.yaml
-  kind: Deployment
-  service:
-    type: LoadBalancer
-    loadBalancerIP: $EXTERNAL_IP
-EOF
-else
-  cat <<EOF >>ingress-values.yaml
-  kind: DaemonSet
-  daemonset:
-    useHostPort: true
   service:
     type: NodePort
     nodePorts:
       http: $ACUMOS_INGRESS_HTTP_PORT
       https: $ACUMOS_INGRESS_HTTPS_PORT
 EOF
+
+if [[ "$ACUMOS_INGRESS_LOADBALANCER" == "true" ]]; then
+  cat <<EOF >>ingress-values.yaml
+    loadBalancerIP: $EXTERNAL_IP
+  kind: Deployment
+EOF
+else
+  cat <<EOF >>ingress-values.yaml
+  kind: DaemonSet
+  daemonset:
+    useHostPort: true
+EOF
 fi
 
-  helm repo add stable https://kubernetes-charts.storage.googleapis.com
   helm repo update
   helm install --name ${NAMESPACE}-nginx-ingress --namespace $NAMESPACE \
     --set-string controller.config.proxy-body-size="0" \
@@ -128,8 +129,6 @@ WORK_DIR=$(pwd)
 cd $(dirname "$0")
 if [[ -z "$AIO_ROOT" ]]; then export AIO_ROOT="$(cd ../../AIO; pwd -P)"; fi
 source $AIO_ROOT/utils.sh
-update_acumos_env AIO_ROOT $AIO_ROOT force
-source $AIO_ROOT/acumos_env.sh
 NAMESPACE=$1
 CERT=$2
 KEY=$3

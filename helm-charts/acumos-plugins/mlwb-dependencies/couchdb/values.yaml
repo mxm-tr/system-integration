@@ -1,7 +1,0 @@
-service:
-  type: NodePort
-
-couchdbConfig:
-  couchdb:
-    uuid: AEdawerijSDhlkJdhliuhkj
-    require_valid_user: true

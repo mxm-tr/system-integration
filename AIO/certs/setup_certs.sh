@@ -69,7 +69,7 @@ authorityKeyIdentifier=keyid,issuer' $name.cnf
   fi
 
   log "Create self-signing CA"
-  CA_KEY_PASSWORD=$(date +%s | sha256sum | base64 | head -c 32)
+  CA_KEY_PASSWORD=$(uuidgen)
   echo "export CA_KEY_PASSWORD=$CA_KEY_PASSWORD" >cert_env.sh
   log "... Generate CA cert key"
   openssl genrsa -des3 -out $name-ca.key -passout pass:$CA_KEY_PASSWORD 4096
@@ -81,7 +81,7 @@ authorityKeyIdentifier=keyid,issuer' $name.cnf
     -subj "/C=US/ST=Unspecified/L=Unspecified/O=$sn/OU=$sn/CN=$sn"
 
   log "Create server certificate key"
-  CERT_KEY_PASSWORD=$(date +%s | sha256sum | base64 | head -c 32)
+  CERT_KEY_PASSWORD=$(uuidgen)
   echo "export CERT_KEY_PASSWORD=$CERT_KEY_PASSWORD" >>cert_env.sh
   openssl genrsa \
     -out $name.key \
@@ -103,7 +103,7 @@ authorityKeyIdentifier=keyid,issuer' $name.cnf
     -out $name.crt
 
   log "Create PKCS12 format keystore with server cert"
-  KEYSTORE_PASSWORD=$(date +%s | sha256sum | base64 | head -c 32)
+  KEYSTORE_PASSWORD=$(uuidgen)
   echo "export KEYSTORE_PASSWORD=$KEYSTORE_PASSWORD" >>cert_env.sh
   openssl pkcs12 -export \
     -in $name.crt \
@@ -121,7 +121,7 @@ authorityKeyIdentifier=keyid,issuer' $name.cnf
 
   log "Create JKS format truststore with CA cert"
   if [[ -e $name-truststore.jks ]]; then rm $name-truststore.jks; fi
-  TRUSTSTORE_PASSWORD=$(date +%s | sha256sum | base64 | head -c 32)
+  TRUSTSTORE_PASSWORD=$(uuidgen)
   echo "export TRUSTSTORE_PASSWORD=$TRUSTSTORE_PASSWORD" >>cert_env.sh
   keytool -import \
     -file $name-ca.crt \

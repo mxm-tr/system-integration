@@ -54,8 +54,8 @@ setup_mariadb_client() {
 
     $sudo_cmd apt-get install software-properties-common -y
     case "$HOST_OS_VER" in
-      "16.04")
-        MARIADB_REPO="deb [arch=amd64,i386,ppc64el] http://$MARIADB_MIRROR/mariadb/repo/$ACUMOS_MARIADB_VERSION/ubuntu xenial main"
+      "20.04")
+        MARIADB_REPO="deb [arch=amd64,arm64,ppc64el] http://$MARIADB_MIRROR/mariadb/repo/$ACUMOS_MARIADB_VERSION/ubuntu bionic main"
         ;;
       "18.04")
         MARIADB_REPO="deb [arch=amd64,arm64,ppc64el] http://$MARIADB_MIRROR/mariadb/repo/$ACUMOS_MARIADB_VERSION/ubuntu bionic main"

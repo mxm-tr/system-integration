@@ -101,7 +101,8 @@ spec:
                 "version": "1.23"
               },
               "imagetag": {
-                "prefix": "<ACUMOS_DOCKER_REGISTRY_HOST>:<ACUMOS_DOCKER_MODEL_PORT><ACUMOS_DOCKER_IMAGETAG_PREFIX>"
+                "prefix": "<ACUMOS_DOCKER_REGISTRY_HOST>:<ACUMOS_DOCKER_MODEL_PORT><ACUMOS_DOCKER_IMAGETAG_PREFIX>",
+                "proxyPrefix": "<ACUMOS_DOCKER_PROXY_HOST>:<ACUMOS_DOCKER_PROXY_PORT><ACUMOS_DOCKER_IMAGETAG_PREFIX>"
               },
               "max_total_connections": "1",
               "max_per_route_connections": "1"
@@ -149,7 +150,7 @@ spec:
             },
             "security": {
               "verificationEnableFlag": "<ACUMOS_ENABLE_SECURITY_VERIFICATION>",
-              "verificationApiUrl":"http://sv-scanning-service:9082"
+              "verificationApiUrl":"http://sv-scanning-service:9082/scan"
             }
           }'
         ports:

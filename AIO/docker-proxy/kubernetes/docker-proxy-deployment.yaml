@@ -80,8 +80,7 @@ spec:
         - containerPort: 8443
         command: ["/bin/bash", "-c"]
         args:
-        - set -x;
-          cp /etc/nginx/conf.d/nginx.conf /etc/nginx/nginx.conf;
+        - cp /etc/nginx/conf.d/nginx.conf /etc/nginx/nginx.conf;
           while ! apt-get update;
             do sleep 10;
                echo "Waiting for temporary DNS resolution issue to be fixed";
@@ -94,7 +93,6 @@ spec:
             do sleep 10;
                echo "Waiting for temporary DNS resolution issue to be fixed";
             done;
-          mkdir -p /var/log/acumos;
           (python /etc/nginx/conf.d/acumos_auth.py &);
           echo 'Acumos authentication proxy started';
           nginx -g "daemon off;"

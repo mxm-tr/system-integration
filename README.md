@@ -18,21 +18,29 @@
 .. ===============LICENSE_END=========================================================
 -->
 
-# Acumos System Integration
+# AI4EU Acumos System Integration
 
-This repository holds installation and deployment scripts for the Acumos system.
+This repository holds installation and deployment scripts for the AI4EU Acumos system.
 
-Please see the documentation in the "docs" folder.
+Preconditions:
+* Ubuntu 20.04
+* Docker installed and docker service enabled and started 
+* Installation user created that belongs to groups docker and sudo, in this example the user is ai4eu
+* /etc/hosts has exactly one entry for the FQHN pointing to the externel ipv4 interface
+* optionally letsencrypt certificates installed
 
-## All In One (AIO)
+Become user ai4eu (installation user)
 
-The `AIO` subdirectory holds scripts to build an all-in-one instance of Acumos, with the database,
-Nexus repositories and docker containers all running on a single virtual machine.
+clone this repo and the correct branch
 
-## Helm Charts (helm-charts)
+    cd system-integration/tools
+    bash setup_k8s.sh 
+    bash setup_helm.sh
+    cd $HOME
+    # replace FGHN appropriately
+    bash system-integration/AIO/setup_prereqs.sh k8s FQHN $USER generic | tee log_prereqs.txt
+    cd system-integration/AIO/
+    bash oneclick_deploy.sh | tee log_oneclick.txt
 
-The `helm-charts` subdirectory holds the latest Helm (v2/v3) charts for deploying Acumos.
 
-## Zero-to-Acumos (z2a)
 
-The `z2a` subdirectory holds scripts and supporting files to bootstrap a Kubernetes cluster and install Acumos and MLWB (Machine Learning WorkBench) on a single vanilla Virtual Machine.  z2a is for development/test purposes only.

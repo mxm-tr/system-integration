@@ -53,7 +53,10 @@ function setup_keystore() {
       extra_ips="$ACUMOS_DOMAIN_IP $ACUMOS_HOST_IP"
     fi
     bash setup_certs.sh $ACUMOS_CERT_PREFIX $ACUMOS_CERT_SUBJECT_NAME \
-      "$ACUMOS_HOST $ACUMOS_FEDERATION_DOMAIN" "$extra_ips"
+      "$ACUMOS_HOST" "$extra_ips"
+    if [[ -e /etc/letsencrypt/live ]]; then
+      bash setup_letsencrypt.sh
+    fi
     cd ..
   fi
 
@@ -80,7 +83,7 @@ function setup_keystore() {
       kubectl delete configmap -n $ACUMOS_NAMESPACE acumos-certs
     fi
     kubectl create configmap -n $ACUMOS_NAMESPACE acumos-certs \
-      --from-file=certs/$ACUMOS_KEYSTORE_P12,certs/$ACUMOS_TRUSTSTORE,certs/$ACUMOS_CA_CERT,certs/$ACUMOS_CERT
+      --from-file=certs/$ACUMOS_KEYSTORE_P12,certs/$ACUMOS_TRUSTSTORE,certs/$ACUMOS_CERT
   fi
 }
 

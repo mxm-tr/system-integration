@@ -95,7 +95,7 @@ services:
         },
         "security": {
           "verificationEnableFlag": "${ACUMOS_ENABLE_SECURITY_VERIFICATION}",
-          "verificationApiUrl": "http://sv-scanning-service:9082"
+          "verificationApiUrl": "http://sv-scanning-service:9082/scan"
         },
         "modelrunnerVersion": {
           "javaSpark": "1.0.2",
