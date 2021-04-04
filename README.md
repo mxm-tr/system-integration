@@ -27,6 +27,7 @@ Preconditions:
 * Docker installed and docker service enabled and started 
 * Installation user created that belongs to groups docker and sudo, in this example the user is ai4eu
 * /etc/hosts has exactly one entry for the FQHN pointing to the externel ipv4 interface
+* /etc/hosts must not contain a 127.0.1.1 entry with hostname
 * optionally letsencrypt certificates installed
 
 Become user ai4eu (installation user)
