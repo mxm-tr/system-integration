@@ -44,8 +44,8 @@ export ACUMOS_RELEASE=nexus3.acumos.org:10002
 # Core components
 export ACUMOS_DELETE_SNAPSHOTS=false
 export AZURE_CLIENT_IMAGE=$ACUMOS_RELEASE/acumos-azure-client:3.0.2
-export PORTAL_BE_IMAGE=cicd.ai4eu-dev.eu:7444/ai4eu/acumos-portal-be:4.0.14-ai4eu-v2
-export PORTAL_FE_IMAGE=cicd.ai4eu-dev.eu:7444/ai4eu/acumos-portal-fe:4.0.14-ai4eu-v2
+export PORTAL_BE_IMAGE=cicd.ai4eu-dev.eu:7444/ai4eu/acumos-portal-be:4.0.14-ai4eu-v6
+export PORTAL_FE_IMAGE=cicd.ai4eu-dev.eu:7444/ai4eu/acumos-portal-fe:4.0.14-ai4eu-v6
 export LICENSE_PROFILE_EDITOR_IMAGE=$ACUMOS_RELEASE/acumos/license-profile-editor:0.0.13
 export LICENSE_RTU_EDITOR_IMAGE=$ACUMOS_RELEASE/acumos/license-rtu-editor:0.1.3
 export LUM_IMAGE=$ACUMOS_RELEASE/acumos/lum-server:0.28.1
