@@ -32,7 +32,7 @@ Preconditions:
 
 Become user ai4eu (installation user)
 
-clone this repo and the correct branch
+clone this repo and then:
 
     cd system-integration/tools
     bash setup_k8s.sh 
