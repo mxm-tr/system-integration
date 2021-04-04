@@ -18,7 +18,7 @@
 .. ===============LICENSE_END=========================================================
 -->
 
-# AI4EU Acumos System Integration
+# AI4EU Experiments Installation
 
 This repository holds installation and deployment scripts for the AI4EU Acumos system.
 
