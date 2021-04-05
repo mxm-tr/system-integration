@@ -42,22 +42,25 @@ function update_cert_env() {
 
 function setup_keystore() {
   trap 'fail' ERR
-  if [[ -e certs/$ACUMOS_CERT ]]; then
-    log "Using existing user-prepared files in certs subfolder"
-  else
-    log "Creating new certs in certs subfolder"
+  if [[ -e /etc/letsencrypt/live ]]; then
     cd certs
-    if [[ "$ACUMOS_DOMAIN_IP" == "$ACUMOS_HOST_IP" ]]; then
-      extra_ips="$ACUMOS_DOMAIN_IP"
-    else
-      extra_ips="$ACUMOS_DOMAIN_IP $ACUMOS_HOST_IP"
-    fi
-    bash setup_certs.sh $ACUMOS_CERT_PREFIX $ACUMOS_CERT_SUBJECT_NAME \
-      "$ACUMOS_HOST" "$extra_ips"
-    if [[ -e /etc/letsencrypt/live ]]; then
-      bash setup_letsencrypt.sh
-    fi
+    bash setup_letsencrypt.sh
     cd ..
+  else
+    if [[ -e certs/$ACUMOS_CERT ]]; then
+      log "Using existing user-prepared files in certs subfolder"
+    else
+      log "Creating new certs in certs subfolder"
+      cd certs
+      if [[ "$ACUMOS_DOMAIN_IP" == "$ACUMOS_HOST_IP" ]]; then
+        extra_ips="$ACUMOS_DOMAIN_IP"
+      else
+        extra_ips="$ACUMOS_DOMAIN_IP $ACUMOS_HOST_IP"
+      fi
+      bash setup_certs.sh $ACUMOS_CERT_PREFIX $ACUMOS_CERT_SUBJECT_NAME \
+        "$ACUMOS_HOST" "$extra_ips"
+      cd ..
+    fi
   fi
 
   if [[ ! -e certs/cert_env.sh ]]; then
