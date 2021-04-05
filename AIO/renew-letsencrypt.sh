@@ -26,5 +26,5 @@ sudo certbot renew -n --force-renewal
 echo '***************************************************'
 
 bash $AIO_ROOT/setup_keystore.sh
-bash $AIO_ROOT/../charts/ingress/setup_ingress_controller.sh $ACUMOS_NAMESPACE $AIO_RROT/certs/acumos.crt $AIO_ROOT/certs/acumos.key $ACUMOS_DOMAIN_IP
+bash $AIO_ROOT/../charts/ingress/setup_ingress_controller.sh $ACUMOS_NAMESPACE $AIO_ROOT/certs/acumos.crt $AIO_ROOT/certs/acumos.key $ACUMOS_DOMAIN_IP
 bash $AIO_ROOT/ingress/setup_ingress.sh
