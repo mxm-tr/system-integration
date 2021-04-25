@@ -54,9 +54,9 @@ function setup_helm() {
   else
     # per https://github.com/kubernetes/helm/blob/master/docs/install.md
     cd ~
-    curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh
+    curl https://raw.githubusercontent.com/kubernetes/helm/main/scripts/get > get_helm.sh
     chmod 700 get_helm.sh
-    ./get_helm.sh
+    ./get_helm.sh -v v2.17.0
     log "Initialize helm"
     helm init --upgrade
   #  nohup helm serve > /dev/null 2>&1 &
