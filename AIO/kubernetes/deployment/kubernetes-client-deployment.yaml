@@ -80,11 +80,11 @@ spec:
               "singleModelPort": "8556",
               "folderPath": "/maven/home",
               "singleNodePort": "30333",
-              "singleTargetPort": "3330",
+              "singleTargetPort": "8061",
               "dataBrokerModelPort": "8556",
               "dataBrokerNodePort": "30556",
               "dataBrokerTargetPort": "8556",
-              "mlTargetPort": "3330",
+              "mlTargetPort": "8061",
               "nginxImageName": "nginx",
               "nexusEndPointURL": "http://localhost:80"
             },
@@ -96,7 +96,7 @@ spec:
               "ImageName": "<BLUEPRINT_ORCHESTRATOR_IMAGE>",
               "name": "blueprint-orchestrator",
               "nodePort": "30555",
-              "port": "8555"
+              "port": "8061"
             },
             "nexus": {
               "url": "http://<ACUMOS_NEXUS_HOST>:<ACUMOS_NEXUS_API_PORT>/<ACUMOS_NEXUS_MAVEN_REPO_PATH>/<ACUMOS_NEXUS_MAVEN_REPO>/",
