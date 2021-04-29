@@ -27,14 +27,14 @@ Preconditions:
 * Docker installed and docker service enabled and started 
 * At least 20GB of disk space available recommended (/var/lib alone will require more than 10GB)
 * Installation user created that belongs to groups docker and sudo, in this example the user is ai4eu
-* /etc/hosts has exactly one entry for the FQHN pointing to the externel ipv4 interface
+* /etc/hosts has exactly one entry for the FQHN pointing to the external ipv4 interface
 * /etc/hosts must not contain a 127.0.1.1 entry with hostname
 * The FQHN should also not appear in any commented out lines in /etc/hosts
 * optionally letsencrypt certificates installed
 
 Become user ai4eu (installation user)
 
-clone this repo and then:
+Clone this repo and then:
 
     cd system-integration/tools
     bash setup_k8s.sh 
