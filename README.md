@@ -25,9 +25,11 @@ This repository holds installation and deployment scripts for the AI4EU Acumos s
 Preconditions:
 * Ubuntu 20.04
 * Docker installed and docker service enabled and started 
+* At least 20GB of disk space available recommended (/var/lib alone will require more than 10GB)
 * Installation user created that belongs to groups docker and sudo, in this example the user is ai4eu
 * /etc/hosts has exactly one entry for the FQHN pointing to the externel ipv4 interface
 * /etc/hosts must not contain a 127.0.1.1 entry with hostname
+* The FQHN should also not appear in any commented out lines in /etc/hosts
 * optionally letsencrypt certificates installed
 
 Become user ai4eu (installation user)
@@ -38,10 +40,12 @@ clone this repo and then:
     bash setup_k8s.sh 
     bash setup_helm.sh
     cd $HOME
-    # replace FGHN appropriately
+    # replace FQHN appropriately
     bash system-integration/AIO/setup_prereqs.sh k8s FQHN $USER generic | tee log_prereqs.txt
     cd system-integration/AIO/
     bash oneclick_deploy.sh | tee log_oneclick.txt
 
+Some of those scripts might take several minutes to complete execution.
+The last script should end with output showing the URLs to use, e.g. among others:
 
-
+    Portal: https://(your FQHN):443
