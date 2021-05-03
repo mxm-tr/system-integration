@@ -796,7 +796,6 @@ function verify_ubuntu_or_centos() {
 
 function get_host_ip_from_etc_hosts() {
   trap 'fail' ERR
-
   # Extraction of the IP from /etc/hosts made more robustly
   # By Raul Saavedra, 2021-05-02
   #
