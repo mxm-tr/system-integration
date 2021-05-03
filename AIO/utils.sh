@@ -796,7 +796,20 @@ function verify_ubuntu_or_centos() {
 
 function get_host_ip_from_etc_hosts() {
   trap 'fail' ERR
-  HOST_IP=$(grep -E "\s$1( |$)" /etc/hosts | grep -v '^127\.' | awk '{print $1}')
+
+  # Extraction of the IP from /etc/hosts made more robustly
+  # By Raul Saavedra, 2021-05-02
+  #
+  # Remove leading spaces from all lines
+  # Ignore commented-out lines
+  # Ignore lines that start with '127.'
+  # Then find exact first match of the host name where:
+  #    - it follows white space, and
+  #    - is immediately followed by either whitespace or end of line
+  # then extract the IP (first word in that matching line)
+  HOST_IP=$(cat /etc/hosts | sed 's/^[[:blank:]]*//' | grep -v '^#' | grep -v '^127\.' | grep -m 1 -E "\s$1(\s|$)" | awk '{print $1}')
+
+  #HOST_IP=$(grep -E "\s$1( |$)" /etc/hosts | grep -v '^127\.' | awk '{print $1}')
 }
 
 function check_name_resolves() {
