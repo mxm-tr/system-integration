@@ -87,7 +87,7 @@ function setup_grafana() {
   log "Setup grafana via Helm"
 
   #TODO: add  --set server.persistentVolume.storageClass=general
-  helm install --name gf stable/grafana \
+  helm install  gf stable/grafana \
     --set service.nodePort=30330 \
     --set service.type=NodePort \
     --set adminPassword=admin \
@@ -135,11 +135,11 @@ EOF
 function clean() {
   trap 'fail' ERR
   log "Removing Grafana"
-  helm delete --purge gf
+  helm delete gf
   wait_until_notfound "kubectl get pods -n default" grafana
 
   log "Removing Prometheus"
-  helm delete --purge pm
+  helm delete pm
   wait_until_notfound "kubectl get pods -n default" prometheus
 }
 

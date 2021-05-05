@@ -33,7 +33,7 @@ function prep_lum_k8(){
 
 function cleanup_lum_k8(){
   trap 'fail' ERR
-  if [[ $(helm delete --purge $LUM_RELEASE_NAME) ]]; then
+  if [[ $(helm delete $LUM_RELEASE_NAME) ]]; then
       log "Helm release $LUM_RELEASE_NAME deleted"
   fi
   if [[ $(kubectl delete pvc data-${LUM_RELEASE_NAME}-postgresql-0 -n ${LUM_NAMESPACE};) ]]; then

@@ -45,7 +45,7 @@
 function clean_ingress() {
   trap 'fail' ERR
 
-  if [[ $(helm delete --purge ${NAMESPACE}-nginx-ingress) ]]; then
+  if [[ $(helm delete -n $NAMESPACE --purge ${NAMESPACE}-nginx-ingress) ]]; then
     log "Helm release ${NAMESPACE}-nginx-ingress deleted"
   fi
   if [[ $(kubectl get namespace -n $NAMESPACE) ]]; then
@@ -67,8 +67,8 @@ function setup_ingress() {
   log "Install nginx ingress controller via Helm"
   cat <<EOF >ingress-values.yaml
 controller:
-  podSecurityContext:
-    privileged: true
+  securityContext:
+    allowPrivilegeEscalation: true
   extraArgs:
     default-ssl-certificate: "$NAMESPACE/ingress-cert"
     enable-ssl-passthrough: ""
@@ -93,12 +93,12 @@ EOF
 fi
 
   helm repo update
-  helm install --name ${NAMESPACE}-nginx-ingress --namespace $NAMESPACE \
+  helm install  ${NAMESPACE}-nginx-ingress --namespace $NAMESPACE \
     --set-string controller.config.proxy-body-size="0" \
-    -f ingress-values.yaml stable/nginx-ingress
+    -f ingress-values.yaml ingress-nginx/ingress-nginx
 
   local t=0
-  while [[ "$(helm list ${NAMESPACE}-nginx-ingress --output json | jq -r '.Releases[0].Status')" != "DEPLOYED" ]]; do
+  while [[ $(helm list -n acumos -o json | jq -r ".[] | select(.name==\"${NAMESPACE}-nginx-ingress\") | .[\"status\"] ") != "deployed" ]]; do
     if [[ $t -eq $ACUMOS_SUCCESS_WAIT_TIME ]]; then
       fail "${NAMESPACE}-nginx-ingress is not ready after $ACUMOS_SUCCESS_WAIT_TIME seconds"
     fi

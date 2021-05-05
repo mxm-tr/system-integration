@@ -113,7 +113,7 @@ function prepare_env() {
 
   if [[ "$DEPLOYED_UNDER" == "k8s" ]]; then
     log "Ensure helm is ready"
-    helm init --client-only
+    # helm init --client-only
     log "Create log PVCs in namespace $ACUMOS_NAMESPACE"
     labels="$ACUMOS_ACUCOMPOSE_SERVICE_LABEL\n$ACUMOS_AZURE_CLIENT_SERVICE_LABEL\n\
 $ACUMOS_COMMON_DATA_SERVICE_LABEL\n$ACUMOS_DEPLOYMENT_CLIENT_SERVICE_LABEL\n\

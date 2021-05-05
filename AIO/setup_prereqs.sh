@@ -389,7 +389,7 @@ function prepare_mlwb() {
 function prepare_helm() {
   trap 'fail' ERR
   log "Ensure helm is ready"
-  helm init --client-only
+  ##helm init --client-only
   local t=0
   wait_running helm kube-system
   t=0

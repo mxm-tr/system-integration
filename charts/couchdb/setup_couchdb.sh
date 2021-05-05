@@ -37,7 +37,7 @@
 function clean_couchdb() {
   trap 'fail' ERR
 
-  if [[ $(helm delete --purge $NAMESPACE-couchdb) ]]; then
+  if [[ $(helm delete $NAMESPACE-couchdb) ]]; then
     log "Helm release $NAMESPACE-couchdb deleted"
   fi
   # Helm delete does not remove PVC
@@ -69,14 +69,14 @@ annotations:
   openshift.io/scc: privileged
 EOF
   fi
-  helm install --name $NAMESPACE-couchdb --namespace $NAMESPACE \
+  helm install  $NAMESPACE-couchdb --namespace $NAMESPACE \
     -f deploy/values.yaml couchdb/couchdb
 
   ACUMOS_COUCHDB_PASSWORD=$(kubectl get secret -n $NAMESPACE $NAMESPACE-couchdb-couchdb -o go-template='{{ .data.adminPassword }}' | base64 --decode)
   update_acumos_env ACUMOS_COUCHDB_PASSWORD $ACUMOS_COUCHDB_PASSWORD force
 
   local t=0
-  while [[ "$(helm list $NAMESPACE-couchdb --output json | jq -r '.Releases[0].Status')" != "DEPLOYED" ]]; do
+  while [[ "$(helm list $NAMESPACE-couchdb --output json | jq -r '.Releases[0].Status')" != "deployed" ]]; do
     if [[ $t -eq $ACUMOS_SUCCESS_WAIT_TIME ]]; then
       fail "couchdb is not ready after $ACUMOS_SUCCESS_WAIT_TIME seconds"
     fi

@@ -70,7 +70,7 @@ function prereqs() {
 function setup() {
   trap 'fail' ERR
   if [[ "$(helm list $namespace-zeppelin)" != "" ]]; then
-    helm delete --purge $namespace-zeppelin
+    helm delete $namespace-zeppelin
     log "Helm release $namespace-zeppelin deleted"
   fi
 

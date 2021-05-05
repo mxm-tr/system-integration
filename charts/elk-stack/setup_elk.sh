@@ -40,7 +40,7 @@
 
 function clean_elk() {
   trap 'fail' ERR
-  if [[ $(helm delete --purge $ACUMOS_ELK_NAMESPACE-elk) ]]; then
+  if [[ $(helm delete $ACUMOS_ELK_NAMESPACE-elk) ]]; then
     log "Helm release $ACUMOS_ELK_NAMESPACE-elk deleted"
   fi
   log "Delete all ELK resources"
