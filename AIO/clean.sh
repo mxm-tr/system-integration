@@ -62,7 +62,7 @@ if [[ $(kubectl get namespaces) ]]; then
   for release in $releases; do
     rlss=$(helm list | grep $release | awk '{print $1}')
     for rls in $rlss; do
-      if [[ $(helm delete --purge $rls) ]]; then
+      if [[ $(helm delete $rls) ]]; then
         log "Helm release $rls deleted"
       fi
     done

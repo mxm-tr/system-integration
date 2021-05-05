@@ -41,7 +41,7 @@
 function clean_jenkins() {
   trap 'fail' ERR
 
-  if [[ $(helm delete --purge $ACUMOS_NAMESPACE-jenkins) ]]; then
+  if [[ $(helm delete $ACUMOS_NAMESPACE-jenkins) ]]; then
     log "Helm release $ACUMOS_NAMESPACE-jenkins deleted"
   fi
   # Helm delete does not remove PVC
@@ -87,10 +87,10 @@ function setup_jenkins() {
 
   log "Install Jenkins via Helm via upstream chart"
   helm repo update
-  helm install --name $ACUMOS_NAMESPACE-jenkins -f deploy/values.yaml stable/jenkins
+  helm install  $ACUMOS_NAMESPACE-jenkins -f deploy/values.yaml stable/jenkins
 
   local t=0
-  while [[ "$(helm list ${NAMESPACE}-jenkins --output json | jq -r '.Releases[0].Status')" != "DEPLOYED" ]]; do
+  while [[ "$(helm list ${NAMESPACE}-jenkins --output json | jq -r '.Releases[0].Status')" != "deployed" ]]; do
     if [[ $t -eq $ACUMOS_SUCCESS_WAIT_TIME ]]; then
       fail "${NAMESPACE}-jenkins is not ready after $ACUMOS_SUCCESS_WAIT_TIME seconds"
     fi

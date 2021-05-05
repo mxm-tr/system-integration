@@ -66,7 +66,7 @@
 
 function standalone_prep() {
   trap 'fail' ERR
-  if [[ $(helm delete --purge $NAMESPACE-jupyterhub) ]]; then
+  if [[ $(helm delete $NAMESPACE-jupyterhub) ]]; then
     log "Helm release $NAMESPACE-jupyterhub deleted"
   fi
 
@@ -117,7 +117,7 @@ function standalone_prep() {
 
 function clean() {
   trap 'fail' ERR
-  if [[ $(helm delete --purge $NAMESPACE-jupyterhub) ]]; then
+  if [[ $(helm delete $NAMESPACE-jupyterhub) ]]; then
     log "Helm release $NAMESPACE-jupyterhub deleted"
   fi
   if [[ "$ACUMOS_DEPLOY_INGRESS_RULES" == "true" ]]; then
@@ -267,14 +267,14 @@ EOF
   log "Attempting to deploy Jupyterhub via Helm"
   helm repo update
   helm fetch jupyterhub/jupyterhub
-  helm install --name $RELEASE jupyterhub/jupyterhub \
+  helm install  $RELEASE jupyterhub/jupyterhub \
     --timeout $ACUMOS_SUCCESS_WAIT_TIME \
     --namespace $NAMESPACE \
     --version=v0.8.2 --values $tmp
   rm $tmp
 
   local t=0
-  while [[ "$(helm list $RELEASE --output json | jq -r '.Releases[0].Status')" != "DEPLOYED" ]]; do
+  while [[ $(helm list -n acumos -o json | jq -r ".[] | select(.name==\"${RELEASE}\") | .[\"status\"] ") != "deployed" ]]; do
     if [[ $t -eq $ACUMOS_SUCCESS_WAIT_TIME ]]; then
       fail "$RELEASE is not ready after $ACUMOS_SUCCESS_WAIT_TIME seconds"
     fi

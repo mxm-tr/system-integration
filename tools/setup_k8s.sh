@@ -282,7 +282,6 @@ function setup_k8s_workers() {
   log "Installing workers at $1 with joincmd: $k8s_joincmd"
 
   tee start_worker.sh <<EOF
-set -x
 sudo $k8s_joincmd
 EOF
 

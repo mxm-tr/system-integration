@@ -75,7 +75,7 @@ function mariadb_customize_sql() {
 
 function mariadb_clean() {
   trap 'fail' ERR
-  if [[ $(helm delete --purge $ACUMOS_MARIADB_NAMESPACE-mariadb) ]]; then
+  if [[ $(helm -n $ACUMOS_MARIADB_NAMESPACE delete $ACUMOS_MARIADB_NAMESPACE-mariadb) ]]; then
     log "Helm release $ACUMOS_MARIADB_NAMESPACE-mariadb deleted"
   fi
   log "Delete all MariaDB resources"
@@ -165,12 +165,12 @@ EOF
     $ACUMOS_MARIADB_DATA_PV_SIZE $ACUMOS_MARIADB_DATA_PV_CLASSNAME
 
   helm repo update
-  helm install --name $ACUMOS_MARIADB_NAMESPACE-mariadb \
+  helm install  $ACUMOS_MARIADB_NAMESPACE-mariadb \
     --namespace $ACUMOS_MARIADB_NAMESPACE --values values.yaml \
     /tmp/charts/stable/mariadb/.
 
   local t=0
-  while [[ "$(helm list $ACUMOS_MARIADB_NAMESPACE-mariadb --output json | jq -r '.Releases[0].Status')" != "DEPLOYED" ]]; do
+  while [[ $(helm list -n $ACUMOS_MARIADB_NAMESPACE -o json | jq -r ".[] | select(.name==\"$ACUMOS_MARIADB_NAMESPACE-mariadb\") | .[\"status\"] ") != "deployed" ]]; do
     if [[ $t -eq $ACUMOS_SUCCESS_WAIT_TIME ]]; then
       fail "$ACUMOS_MARIADB_NAMESPACE-mariadb is not ready after $ACUMOS_SUCCESS_WAIT_TIME seconds"
     fi
